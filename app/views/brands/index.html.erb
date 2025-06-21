@@ -1,0 +1,29 @@
+<div class="container py-5">
+  <h1 class="text-center mb-4 fw-bold">Mtl Mall</h1>
+
+  <!-- Search bar -->
+  <div class="d-flex justify-content-center mb-5">
+    <div class="input-group" style="max-width: 500px;">
+      <span class="input-group-text border-0">
+        <i class="bi bi-search"></i>
+      </span>
+      <input type="text" class="form-control rounded-pill ps-2" placeholder="Search Local brands..." style="background-color: #eee; border: none;">
+    </div>
+  </div>
+
+  <!-- Dynamic Brand Grid -->
+  <div class="row g-4">
+    <% @brands.each do |brand| %>
+      <div class="col-6 col-md-4">
+        <%= link_to brand_path(brand), class: "text-decoration-none text-dark" do %>
+          <div class="card border-0 shadow-sm h-100">
+            <%= image_tag(brand.image.presence || "artgang.png", alt: brand.name, class: "card-img-top", style: "aspect-ratio: 1/1; object-fit: cover; border-radius: 8px;") %>
+            <div class="card-body text-center">
+              <h5 class="card-title fw-semibold mb-0"><%= brand.name %></h5>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+</div>

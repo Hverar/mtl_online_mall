@@ -1,0 +1,25 @@
+<div class="container py-5">
+  <h1 class="mb-4 fw-bold">Your Favorites</h1>
+
+  <% if @favorites.any? %>
+    <div class="row g-4">
+      <% @favorites.each do |favorite| %>
+        <% favoritable = favorite.favoritable %>
+        <div class="col-md-4">
+          <div class="card shadow-sm">
+            <!-- Example rendering an event -->
+            <% if favoritable.is_a?(Event) %>
+              <%= image_tag favoritable.image_url, class: "card-img-top", alt: favoritable.name if favoritable.respond_to?(:image_url) %>
+              <div class="card-body">
+                <h5 class="card-title"><%= favoritable.name %></h5>
+                <%= link_to "Remove", favorite_path(favorite), method: :delete, class: "btn btn-outline-danger btn-sm" %>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  <% else %>
+    <p>You haven't favorited anything yet.</p>
+  <% end %>
+</div>

@@ -1,0 +1,25 @@
+<div class="container py-5">
+  <!-- Brand Name -->
+  <h1 class="text-center mb-4 fw-bold"><%= @brand.name %></h1>
+
+  <!-- Banner / Entertainment Image -->
+  <div class="text-center mb-5">
+    <%= image_tag "artgang.png", class: "img-fluid rounded", style: "max-height: 250px; object-fit: cover;" %>
+    <p class="mt-2 text-uppercase fw-bold">[Entertainment]</p>
+  </div>
+
+  <!-- Product Grid -->
+  <div class="row justify-content-center">
+    <% @brand.products.each do |product| %>
+      <div class="col-6 col-md-3 mb-4 text-center">
+        <%= link_to product_path(product), class: "text-decoration-none text-dark d-block h-100" do %>
+          <%= image_tag product.image.presence || "default_brand_product.jpg", class: "img-fluid rounded mb-2", style: "aspect-ratio: 1/1; object-fit: cover;" %>
+          <div>
+            <strong><%= number_to_currency(product.price, unit: "$") %></strong><br>
+            <small><%= product.name %></small>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+</div>

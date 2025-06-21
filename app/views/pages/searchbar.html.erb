@@ -1,0 +1,35 @@
+<% content_for :no_footer %>
+
+<!-- Fullscreen search page -->
+<div style="min-height: 100vh; background-color: #f7f7f7; position: relative; padding-top: 100px;">
+
+  <!-- Close icon, top-right and far -->
+  <div style="position: absolute; top: 32px; right: 48px;" class="text-end">
+    <%= link_to root_path, class: "text-dark fs-4" do %>
+      <i class="bi bi-x"></i>
+    <% end %>
+  </div>
+
+  <div class="container px-5">
+
+    <!-- Search input with line and glass icon inline -->
+    <div class="mb-4" style="max-width: 1000px; margin: 0 auto;">
+      <form action="#" method="get" class="d-flex align-items-center border-bottom border-dark pb-2">
+        <input type="text"
+               name="query"
+               class="border-0 fw-bold fs-4 text-center flex-grow-1"
+               style="outline: none; background: transparent;"
+               placeholder="Search" />
+        <%= button_tag type: 'submit', class: "btn p-0 ps-3 text-dark fs-4", style: "background: none;" do %>
+          <i class="bi bi-search"></i>
+        <% end %>
+      </form>
+    </div>
+
+    <!-- Suggestions, left-aligned -->
+    <div style="max-width: 1000px; margin: 0 auto;">
+      <h5 class="text-muted mb-3">Suggestions</h5>
+    </div>
+
+  </div>
+</div>

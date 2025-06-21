@@ -1,0 +1,60 @@
+<div class="container py-5">
+  <h1 class="text-center mb-4 fw-bold">Events in Mtl</h1>
+
+  <% @events.each_with_index do |event, index| %>
+    <div class="row align-items-center mb-5">
+
+      <% if index.even? %>
+        <!-- Image Left -->
+        <div class="col-md-4 text-center">
+          <%= image_tag(event.image.presence || "default_event.webp", alt: event.name, class: "img-fluid rounded") %>
+        </div>
+        <div class="col-md-8">
+      <% else %>
+        <!-- Text Left -->
+        <div class="col-md-8">
+      <% end %>
+
+          <!-- Title and Star -->
+          <div class="d-flex justify-content-between align-items-start mb-2">
+            <strong><%= event.name %></strong>
+
+            <% if user_signed_in? %>
+              <% favorite = current_user.favorites.find_by(favoritable: event) %>
+              <% if favorite %>
+                <%= link_to favorite_path(favorite), method: :delete, class: "text-warning fs-4" do %>
+                  <i class="bi bi-star-fill"></i>
+                <% end %>
+              <% else %>
+                <%= link_to favorites_path(type: 'MtlEvent', id: event.id), method: :post, class: "text-dark fs-4" do %>
+                  <i class="bi bi-star"></i>
+                <% end %>
+              <% end %>
+            <% else %>
+              <%= link_to new_user_session_path, class: "text-dark fs-4" do %>
+                <i class="bi bi-star"></i>
+              <% end %>
+            <% end %>
+          </div>
+
+          <span class="text-muted"><%= event.location %></span><br>
+          <span class="text-muted"><%= event.age_restriction %></span><br>
+
+          <%= link_to "#", class: "btn btn-light rounded-pill fw-semibold px-4 py-1 me-3 mt-2" do %>
+            Buy ticket
+          <% end %>
+          <span>Price: <%= number_to_currency(event.price, unit: "$") %></span>
+
+        </div>
+
+        <% if index.odd? %>
+          <!-- Image Right -->
+          <div class="col-md-4 text-center">
+            <%= image_tag(event.image.presence || "default_event.webp", alt: event.name, class: "img-fluid rounded") %>
+          </div>
+        <% end %>
+
+    </div>
+    <hr>
+  <% end %>
+</div>

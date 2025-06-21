@@ -1,0 +1,2 @@
+class MtlEvent < ApplicationRecord
+end

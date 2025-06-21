@@ -1,2 +1,27 @@
-<h1>Pages#home</h1>
-<p>Find me in app/views/pages/home.html.erb</p>
+<!-- Fullscreen Banner Section -->
+<div class="banner-image position-relative" style="height: 100vh; overflow: hidden; margin-bottom: 0;">
+
+  <!-- Background Image -->
+  <%= image_tag("magdala-c-20uJci024LU-unsplash.jpg",
+    alt: "City Ring",
+    class: "w-100 h-100 position-absolute top-0 start-0",
+    style: "object-fit: cover; object-position: center; z-index: 1;"
+  ) %>
+
+  <!-- Dark Overlay -->
+  <div style="
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 2;
+  "></div>
+
+  <!-- Centered Text -->
+  <div class="position-absolute top-50 start-50 translate-middle text-white text-center" style="z-index: 3;">
+    <h1 class="display-3 fw-bold">Welcome to the MTL Online Mall</h1>
+    <p class="lead mb-4">Explore the future of Local products</p>
+
+    <%= link_to "Discover", discover_path, class: "btn btn-light btn-lg px-4 py-2 fw-bold shadow-sm" %>
+  </div>
+</div>
