@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get 'mtl_events/index'
+  get 'mtl_events/show'
   # Devise
   devise_for :users
 
@@ -6,7 +8,6 @@ Rails.application.routes.draw do
   root to: "pages#home"
 
   # Static Pages
-  get "/events", to: "pages#events"
   get "/advertise", to: "pages#advertise"
   get "/searchbar", to: "pages#searchbar"
   get "/discover", to: "pages#discover"
@@ -15,9 +16,12 @@ Rails.application.routes.draw do
   get "/music", to: "musics#index", as: :music
   resources :musics, only: [:index, :show, :edit, :update]
 
-  # Songs & Artists (linked on music pages)
+  # Songs & Artists
   resources :songs, only: [:index, :show]
   resources :artists, only: [:index, :show]
+
+  # Events – Use proper resource route instead of static
+  resources :mtl_events, path: "events", only: [:index, :show]
 
   # Favorites with Turbo (stay on same page)
   resources :favorites, only: [:create, :destroy], defaults: { format: :turbo_stream }

@@ -1,6 +1,10 @@
 class BrandsController < ApplicationController
   def index
-    @brands = Brand.all
+    if params[:query].present?
+      @brands = Brand.where("name ILIKE ?", "%#{params[:query]}%")
+    else
+      @brands = Brand.all
+    end
   end
 
   def show

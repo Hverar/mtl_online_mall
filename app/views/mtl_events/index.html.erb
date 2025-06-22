@@ -5,15 +5,20 @@
     <div class="row align-items-center mb-5">
       <% if index.even? %>
         <div class="col-md-4 text-center">
-          <%= image_tag(event.image.presence || "default_event.webp", alt: event.name, class: "img-fluid rounded") %>
+          <%= link_to mtl_event_path(event) do %>
+            <%= image_tag(event.image.presence || "default_event.webp", alt: event.name, class: "img-fluid rounded") %>
+          <% end %>
         </div>
         <div class="col-md-8">
       <% else %>
         <div class="col-md-8">
       <% end %>
 
+        <!-- Title and Star -->
         <div class="d-flex justify-content-between align-items-start mb-2">
-          <strong><%= event.name %></strong>
+          <strong>
+            <%= link_to event.name, mtl_event_path(event), class: "text-dark text-decoration-none" %>
+          </strong>
 
           <% if user_signed_in? %>
             <% favorite = current_user.favorites.find_by(favoritable: event) %>
@@ -35,9 +40,13 @@
           <% end %>
         </div>
 
-        <span class="text-muted"><%= event.location %></span><br>
-        <span class="text-muted"><%= event.age_restriction %></span><br>
+        <!-- Description (Clickable) -->
+        <%= link_to mtl_event_path(event), class: "text-muted text-decoration-none d-block mb-2" do %>
+          <%= event.location %><br>
+          <%= event.age_restriction %>
+        <% end %>
 
+        <!-- Static Buy Button -->
         <%= link_to "#", class: "btn btn-light rounded-pill fw-semibold px-4 py-1 me-3 mt-2" do %>
           Buy ticket
         <% end %>
@@ -47,7 +56,9 @@
 
       <% if index.odd? %>
         <div class="col-md-4 text-center">
-          <%= image_tag(event.image.presence || "default_event.webp", alt: event.name, class: "img-fluid rounded") %>
+          <%= link_to mtl_event_path(event) do %>
+            <%= image_tag(event.image.presence || "default_event.webp", alt: event.name, class: "img-fluid rounded") %>
+          <% end %>
         </div>
       <% end %>
     </div>

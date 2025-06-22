@@ -2,7 +2,14 @@ class MusicsController < ApplicationController
   before_action :set_music, only: [:show, :edit, :update]
 
   def index
-    @artists = Artist.includes(:songs)
+    if params[:query].present?
+      @query = params[:query]
+      @artists = Artist.where("name ILIKE ?", "%#{@query}%")
+      @songs = Song.where("title ILIKE ?", "%#{@query}%")
+    else
+      @artists = Artist.includes(:songs)
+      @songs = Song.none
+    end
   end
 
   def show
