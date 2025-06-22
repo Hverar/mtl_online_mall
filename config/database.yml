@@ -79,6 +79,4 @@ test:
 #
 production:
   <<: *default
-  database: mtl_online_mall_production
-  username: mtl_online_mall
-  password: <%= ENV["MTL_ONLINE_MALL_DATABASE_PASSWORD"] %>
+  url: <%= ENV["DATABASE_URL"] %>
