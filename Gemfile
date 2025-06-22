@@ -51,6 +51,6 @@ group :test do
 end
 
 # Optional – only for legacy Heroku stacks like heroku-20
-# group :production do
-#   gem "rails_12factor"
-# end
+group :production do
+  gem "rails_12factor"
+end
