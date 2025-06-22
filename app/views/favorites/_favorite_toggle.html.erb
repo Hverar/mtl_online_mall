@@ -1,0 +1,9 @@
+<% if favorite %>
+  <%= link_to favorite_path(favorite), method: :delete, remote: true, data: { turbo_frame: "_top" }, class: "text-warning fs-4" do %>
+    <i class="bi bi-star-fill"></i>
+  <% end %>
+<% else %>
+  <%= link_to favorites_path(type: favoritable.class.name, id: favoritable.id), method: :post, remote: true, data: { turbo_frame: "_top" }, class: "text-dark fs-4" do %>
+    <i class="bi bi-star"></i>
+  <% end %>
+<% end %>

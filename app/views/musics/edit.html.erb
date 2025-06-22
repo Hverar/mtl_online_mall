@@ -1,0 +1,17 @@
+<div class="container py-5">
+  <h2>Edit Music Info</h2>
+
+  <%= form_with(model: @music, local: true) do |form| %>
+    <div class="mb-3">
+      <%= form.label :cover_image %>
+      <%= form.text_field :cover_image, class: "form-control" %>
+    </div>
+
+    <div class="mb-3">
+      <%= form.label :description, "Where to watch/listen" %>
+      <%= form.text_area :description, rows: 5, class: "form-control" %>
+    </div>
+
+    <%= form.submit "Save changes", class: "btn btn-primary" %>
+  <% end %>
+</div>

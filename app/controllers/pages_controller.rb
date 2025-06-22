@@ -19,4 +19,9 @@ class PagesController < ApplicationController
     @brands = Brand.all
   end
 
+  def music
+    @musics = Music.all
+  end
+
+
 end

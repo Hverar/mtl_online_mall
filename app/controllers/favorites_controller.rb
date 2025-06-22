@@ -1,25 +1,39 @@
 class FavoritesController < ApplicationController
   before_action :authenticate_user!
 
+  def index
+    @favorites = current_user.favorites.includes(:favoritable)
+  end
+
   def create
     favoritable = find_favoritable
-    current_user.favorites.find_or_create_by(favoritable: favoritable)
-    redirect_back fallback_location: root_path
+    favorite = current_user.favorites.create(favoritable: favoritable)
+
+    respond_to do |format|
+      format.turbo_stream do
+        render turbo_stream: turbo_stream.replace("favorite-toggle-#{favoritable.id}", partial: "favorites/favorite_toggle", locals: { favoritable: favoritable, favorite: favorite })
+      end
+      format.html { redirect_back fallback_location: root_path }
+    end
   end
 
   def destroy
     favorite = current_user.favorites.find(params[:id])
+    favoritable = favorite.favoritable
     favorite.destroy
-    redirect_back fallback_location: root_path
-  end
 
-  def index
-    @favorites = current_user.favorites.includes(:favoritable)
+    respond_to do |format|
+      format.turbo_stream do
+        render turbo_stream: turbo_stream.replace("favorite-toggle-#{favoritable.id}", partial: "favorites/favorite_toggle", locals: { favoritable: favoritable, favorite: nil })
+      end
+      format.html { redirect_back fallback_location: root_path }
+    end
   end
 
   private
 
   def find_favoritable
-    params[:type].constantize.find(params[:id])
+    type = params[:type].constantize
+    type.find(params[:id])
   end
 end

@@ -1,0 +1,47 @@
+<div class="position-relative w-100 mb-4" style="height: 500px; overflow: hidden;">
+  <%= image_tag(
+        @artist.image.presence || "default_artist_banner.jpg",
+        alt: @artist.name,
+        class: "w-100 h-100",
+        style: "object-fit: cover; object-position: center;"
+      ) %>
+
+  <!-- Artist name overlay -->
+  <div class="position-absolute bottom-0 start-0 p-4">
+    <h1 class="text-white display-3 fw-bold" style="text-shadow: 2px 2px 8px rgba(0,0,0,0.7);">
+      <%= @artist.name %>
+    </h1>
+  </div>
+</div>
+
+<div class="container">
+  <h4 class="mb-4">Songs</h4>
+
+  <div class="row">
+    <div class="col-md-8">
+      <% @songs.each do |song| %>
+        <div class="d-flex justify-content-between border-bottom py-2">
+          <%= link_to song.title, song_path(song), class: "text-decoration-none fw-semibold" %>
+          <span class="text-muted">Release date</span> <!-- Placeholder -->
+        </div>
+      <% end %>
+    </div>
+
+    <div class="col-md-4">
+      <div class="border rounded p-3 bg-light">
+        <h6 class="fw-bold">Event</h6>
+        <p class="text-muted">[Artist-related event info]</p>
+      </div>
+    </div>
+  </div>
+
+  <hr class="my-4">
+
+  <div class="row text-center">
+    <% 3.times do %>
+      <div class="col-md-4 mb-3">
+        <div class="border rounded py-5 bg-light">Album</div>
+      </div>
+    <% end %>
+  </div>
+</div>
