@@ -64,6 +64,10 @@ Rails.application.configure do
 
   config.action_mailer.perform_caching = false
 
+  # config/environments/production.rb
+  config.action_mailer.default_url_options = { host: 'mtl_online_mall.herokuapp.com', protocol: 'https' }
+
+
   # Ignore bad email addresses and do not raise email delivery errors.
   # config.action_mailer.raise_delivery_errors = false
 
