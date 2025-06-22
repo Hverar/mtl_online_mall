@@ -22,6 +22,12 @@ gem "sassc-rails"
 gem "autoprefixer-rails"
 gem "bootstrap", "~> 5.3"
 gem "font-awesome-sass", "~> 6.1"
+gem "mini_magick"
+gem "cloudinary"
+gem "activestorage-cloudinary-service"
+gem "image_processing"
+
+
 
 # Forms & Auth
 gem "simple_form", github: "heartcombo/simple_form"
