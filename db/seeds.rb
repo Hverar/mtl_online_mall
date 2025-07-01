@@ -37,6 +37,30 @@ brands = [
 
 brands.each { |b| Brand.create!(b) }
 
+# Products for each Brand
+brand_images = [
+  "https://picsum.photos/300/300?random=1",
+  "https://picsum.photos/300/300?random=2",
+  "https://picsum.photos/300/300?random=3",
+  "https://picsum.photos/300/300?random=4",
+  "https://picsum.photos/300/300?random=5",
+  "https://picsum.photos/300/300?random=6"
+]
+
+brand_names = ["Cap", "T-shirt", "Hoodie", "Poster", "Skate Deck", "Sticker"]
+
+Brand.all.each do |brand|
+  rand(3..6).times do
+    Product.create!(
+      name: "#{brand.name} #{brand_names.sample}",
+      price: rand(10.0..100.0).round(2),
+      image: brand_images.sample,
+      brand: brand
+    )
+  end
+end
+
+
 # Artists (without images)
 artist1 = Artist.create!(name: "Laval Boy", genre: "Rap")
 artist2 = Artist.create!(name: "DJ Marie", genre: "House")
