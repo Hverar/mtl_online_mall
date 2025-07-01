@@ -2,11 +2,12 @@
   <h1 class="text-center mb-4 fw-bold">Events in Mtl</h1>
 
   <% @events.each_with_index do |event, index| %>
-    <div class="row align-items-center mb-5">
+    <div class="row align-items-center mb-4 pb-3 border-bottom">
+
       <% if index.even? %>
         <div class="col-md-4 text-center">
           <%= link_to mtl_event_path(event) do %>
-            <%= image_tag(event.image.presence || "default_event.webp", alt: event.name, class: "img-fluid rounded") %>
+            <%= image_tag(event.image.presence || "default_event.webp", alt: event.name, class: "img-fluid rounded mb-3") %>
           <% end %>
         </div>
         <div class="col-md-8">
@@ -14,54 +15,55 @@
         <div class="col-md-8">
       <% end %>
 
-        <!-- Title and Star -->
-        <div class="d-flex justify-content-between align-items-start mb-2">
-          <strong>
-            <%= link_to event.name, mtl_event_path(event), class: "text-dark text-decoration-none" %>
-          </strong>
-
-          <% if user_signed_in? %>
-            <% favorite = current_user.favorites.find_by(favoritable: event) %>
-            <div id="favorite-toggle-<%= event.id %>">
-              <% if favorite %>
-                <%= link_to favorite_path(favorite), method: :delete, remote: true, data: { turbo_frame: "_top" }, class: "text-warning fs-4" do %>
-                  <i class="bi bi-star-fill"></i>
+          <!-- Title and Star Row -->
+          <div class="d-flex align-items-center gap-2 mb-1">
+            <h5 class="mb-0 fw-bold">
+              <%= link_to event.name, mtl_event_path(event), class: "text-dark text-decoration-none" %>
+            </h5>
+            <% if user_signed_in? %>
+              <% favorite = current_user.favorites.find_by(favoritable: event) %>
+              <div id="favorite-toggle-<%= event.id %>">
+                <% if favorite %>
+                  <%= link_to favorite_path(favorite), method: :delete, remote: true, data: { turbo_frame: "_top" }, class: "text-warning fs-5" do %>
+                    <i class="bi bi-star-fill"></i>
+                  <% end %>
+                <% else %>
+                  <%= link_to favorites_path(type: 'MtlEvent', id: event.id), method: :post, remote: true, data: { turbo_frame: "_top" }, class: "text-dark fs-5" do %>
+                    <i class="bi bi-star"></i>
+                  <% end %>
                 <% end %>
-              <% else %>
-                <%= link_to favorites_path(type: 'MtlEvent', id: event.id), method: :post, remote: true, data: { turbo_frame: "_top" }, class: "text-dark fs-4" do %>
-                  <i class="bi bi-star"></i>
-                <% end %>
+              </div>
+            <% else %>
+              <%= link_to new_user_session_path, class: "text-dark fs-5" do %>
+                <i class="bi bi-star"></i>
               <% end %>
-            </div>
-          <% else %>
-            <%= link_to new_user_session_path, class: "text-dark fs-4" do %>
-              <i class="bi bi-star"></i>
             <% end %>
-          <% end %>
+          </div>
+
+          <!-- Description -->
+          <p class="text-muted mb-2">
+            <%= event.location %><br>
+            <%= event.age_restriction %>
+          </p>
+
+          <!-- Buy button and price -->
+          <div class="d-flex align-items-center flex-wrap gap-3">
+            <%= link_to "#", class: "btn btn-light rounded-pill fw-semibold px-4 py-1" do %>
+              Buy ticket
+            <% end %>
+            <span>Price: <%= number_to_currency(event.price, unit: "$") %></span>
+          </div>
+
         </div>
-
-        <!-- Description (Clickable) -->
-        <%= link_to mtl_event_path(event), class: "text-muted text-decoration-none d-block mb-2" do %>
-          <%= event.location %><br>
-          <%= event.age_restriction %>
-        <% end %>
-
-        <!-- Static Buy Button -->
-        <%= link_to "#", class: "btn btn-light rounded-pill fw-semibold px-4 py-1 me-3 mt-2" do %>
-          Buy ticket
-        <% end %>
-        <span>Price: <%= number_to_currency(event.price, unit: "$") %></span>
-
-      </div>
 
       <% if index.odd? %>
         <div class="col-md-4 text-center">
           <%= link_to mtl_event_path(event) do %>
-            <%= image_tag(event.image.presence || "default_event.webp", alt: event.name, class: "img-fluid rounded") %>
+            <%= image_tag(event.image.presence || "default_event.webp", alt: event.name, class: "img-fluid rounded mb-3") %>
           <% end %>
         </div>
       <% end %>
+
     </div>
-    <hr>
   <% end %>
 </div>
