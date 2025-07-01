@@ -1,16 +1,14 @@
 Rails.application.routes.draw do
-  get 'mtl_events/index'
-  get 'mtl_events/show'
-  # Devise
+  # Devise authentication
   devise_for :users
 
-  # Root
+  # Root page
   root to: "pages#home"
 
   # Static Pages
   get "/advertise", to: "pages#advertise"
-  get "/searchbar", to: "pages#searchbar"
-  get "/discover", to: "pages#discover"
+  get "/discover",  to: "pages#discover"
+  get "/search",    to: "pages#searchbar", as: :search
 
   # Music
   get "/music", to: "musics#index", as: :music
@@ -20,10 +18,10 @@ Rails.application.routes.draw do
   resources :songs, only: [:index, :show]
   resources :artists, only: [:index, :show]
 
-  # Events – Use proper resource route instead of static
+  # Events
   resources :mtl_events, path: "events", only: [:index, :show]
 
-  # Favorites with Turbo (stay on same page)
+  # Favorites with Turbo Streams
   resources :favorites, only: [:create, :destroy], defaults: { format: :turbo_stream }
   get "/favorites", to: "favorites#index", as: :user_favorites
 
@@ -31,12 +29,12 @@ Rails.application.routes.draw do
   resources :brands, only: [:index, :show]
   resources :products, only: [:show]
 
-  # Cart
+  # Cart functionality
   resource :cart, only: [:show] do
-    post "add/:product_id", to: "cart#add", as: :add_to
+    post   "add/:product_id",    to: "cart#add",    as: :add_to
     delete "remove/:product_id", to: "cart#remove", as: :remove_from
   end
 
   # Health check
-  get "up" => "rails/health#show", as: :rails_health_check
+  get "up", to: "rails/health#show", as: :rails_health_check
 end
