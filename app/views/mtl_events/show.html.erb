@@ -12,3 +12,14 @@
     </div>
   </div>
 </div>
+
+<% if @event.latitude.present? && @event.longitude.present? %>
+  <div
+    data-controller="mapbox"
+    data-mapbox-api-key-value="<%= ENV['MAPBOX_API_KEY'] %>"
+    data-mapbox-lat-value="<%= @event.latitude %>"
+    data-mapbox-lng-value="<%= @event.longitude %>"
+    data-mapbox-name-value="<%= @event.name %>"
+    style="height: 500px; width: 100%;"
+  ></div>
+<% end %>
