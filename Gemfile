@@ -26,6 +26,8 @@ gem "mini_magick"
 gem "cloudinary"
 gem "activestorage-cloudinary-service"
 gem "image_processing"
+gem "geocoder"
+
 
 
 
