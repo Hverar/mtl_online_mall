@@ -1,48 +1,25 @@
-<div class="container py-5" style="max-width: 500px;">
-  <h2 class="text-center fw-bold mb-4">Sign Up</h2>
+<h2>Sign up</h2>
 
-  <% resource ||= User.new %>
-  <% resource_name ||= :user %>
-  <% devise_mapping ||= Devise.mappings[:user] %>
+<%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+  <%= f.error_notification %>
 
-  <% if resource && resource_name && devise_mapping %>
-    <%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
-      <%= f.error_notification %>
-
-      <div class="mb-3">
-        <%= f.input :email,
-                    required: true,
-                    label: false,
-                    placeholder: "Email",
-                    input_html: { class: "form-control rounded-pill px-3 py-2", autocomplete: "email" } %>
-      </div>
-
-      <div class="mb-3">
-        <%= f.input :password,
-                    required: true,
-                    label: false,
-                    placeholder: "Password",
-                    hint: ("#{@minimum_password_length} characters minimum" if @minimum_password_length),
-                    input_html: { class: "form-control rounded-pill px-3 py-2", autocomplete: "new-password" } %>
-      </div>
-
-      <div class="mb-4">
-        <%= f.input :password_confirmation,
-                    required: true,
-                    label: false,
-                    placeholder: "Confirm Password",
-                    input_html: { class: "form-control rounded-pill px-3 py-2", autocomplete: "new-password" } %>
-      </div>
-
-      <div class="d-grid gap-2">
-        <%= f.button :submit, "Create Account", class: "btn btn-dark rounded-pill fw-semibold py-2" %>
-      </div>
-    <% end %>
-  <% else %>
-    <p class="text-danger">Sign-up form could not be loaded. Please try again later.</p>
-  <% end %>
-
-  <div class="text-center mt-4">
-    <%= render "devise/shared/links" %>
+  <div class="form-inputs">
+    <%= f.input :email,
+                required: true,
+                autofocus: true,
+                input_html: { autocomplete: "email" }%>
+    <%= f.input :password,
+                required: true,
+                hint: ("#{@minimum_password_length} characters minimum" if @minimum_password_length),
+                input_html: { autocomplete: "new-password" } %>
+    <%= f.input :password_confirmation,
+                required: true,
+                input_html: { autocomplete: "new-password" } %>
   </div>
-</div>
+
+  <div class="form-actions">
+    <%= f.button :submit, "Sign up" %>
+  </div>
+<% end %>
+
+<%= render "devise/shared/links" %>
