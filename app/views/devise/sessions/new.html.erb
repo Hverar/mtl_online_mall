@@ -1,44 +1,91 @@
-<div class="container py-5" style="max-width: 500px;">
-  <h2 class="text-center fw-bold mb-4">Log In</h2>
+<div class="min-vh-100 bg-white d-flex flex-column justify-content-center align-items-center"
+     data-controller="account-toggle">
 
-  <% resource ||= User.new %>
-  <% resource_name ||= :user %>
-  <% devise_mapping ||= Devise.mappings[:user] %>
+  <!-- Title -->
+  <h1 class="fw-bold mb-4" style="font-size: 3rem;">MTL Online Mall</h1>
 
-  <% if resource && resource_name && devise_mapping %>
-    <%= simple_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
-      <div class="mb-3">
-        <%= f.input :email,
-                    required: false,
-                    autofocus: true,
-                    label: false,
-                    placeholder: "Email",
-                    input_html: { class: "form-control rounded-pill px-3 py-2", autocomplete: "email" } %>
-      </div>
+  <!-- Toggle Tabs -->
+  <div class="d-flex justify-content-center w-100 mb-4" style="max-width: 400px;">
+    <button class="w-50 text-center pb-2 border-0 bg-transparent"
+            data-action="click->account-toggle#showSignIn"
+            data-account-toggle-target="signinTab">
+      <span class="fw-bold border-bottom border-2 border-dark d-inline-block">Sign In</span>
+    </button>
+    <button class="w-50 text-center pb-2 border-0 bg-transparent text-muted"
+            data-action="click->account-toggle#showSignUp"
+            data-account-toggle-target="signupTab">
+      <span class="d-inline-block">Register</span>
+    </button>
+  </div>
 
-      <div class="mb-3">
-        <%= f.input :password,
-                    required: false,
-                    label: false,
-                    placeholder: "Password",
-                    input_html: { class: "form-control rounded-pill px-3 py-2", autocomplete: "current-password" } %>
-      </div>
+  <!-- Forms container with fixed height to avoid layout shift -->
+  <div class="position-relative" style="min-height: 420px; width: 100%; max-width: 400px;">
 
-      <% if devise_mapping.rememberable? %>
-        <div class="form-check mb-3">
-          <%= f.input :remember_me, as: :boolean, label: "Remember me", input_html: { class: "form-check-input" }, wrapper_html: { class: "form-check" } %>
+    <!-- Sign In Form -->
+    <div data-account-toggle-target="signin" class="position-absolute top-0 start-0 w-100">
+      <p class="text-center fw-semibold mb-2">Welcome Back.</p>
+      <p class="text-center text-muted mb-4" style="font-size: 0.9rem;">
+        Sign in with your email and password
+      </p>
+
+      <% resource ||= User.new %>
+      <% resource_name ||= :user %>
+      <% devise_mapping ||= Devise.mappings[:user] %>
+
+      <%= simple_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+        <div class="mb-4">
+          <%= f.input :email, label: false, placeholder: "Email",
+            input_html: { class: "form-control border-0 border-bottom rounded-0 px-0 py-2", style: "background: none;" } %>
+        </div>
+
+        <div class="mb-1">
+          <%= f.input :password, label: false, placeholder: "Password",
+            input_html: { class: "form-control border-0 border-bottom rounded-0 px-0 py-2", style: "background: none;" } %>
+        </div>
+
+        <div class="text-end mb-3">
+          <%= link_to "Forgot password? >", new_password_path(resource_name), class: "small text-decoration-none text-muted" %>
+        </div>
+
+        <div class="form-check mb-4">
+          <%= f.input :remember_me, as: :boolean, label: "Remember me (optional)",
+            input_html: { class: "form-check-input" },
+            wrapper_html: { class: "form-check" },
+            label_html: { class: "form-check-label text-muted" } %>
+        </div>
+
+        <div class="d-grid">
+          <%= f.button :submit, "Sign in", class: "btn btn-dark fw-bold py-2" %>
         </div>
       <% end %>
+    </div>
 
-      <div class="d-grid gap-2">
-        <%= f.button :submit, "Log In", class: "btn btn-dark rounded-pill fw-semibold py-2" %>
-      </div>
-    <% end %>
-  <% else %>
-    <p class="text-danger">Login form could not be loaded. Please try again later.</p>
-  <% end %>
+    <!-- Sign Up Form -->
+    <div data-account-toggle-target="signup" class="position-absolute top-0 start-0 w-100 d-none">
+      <p class="text-center text-muted mb-4">
+        Register with your email and a secure password
+      </p>
 
-  <div class="text-center mt-4">
-    <%= render "devise/shared/links" %>
+      <%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+        <div class="mb-3">
+          <%= f.input :email, required: true, label: false, placeholder: "Email",
+            input_html: { class: "form-control border-0 border-bottom rounded-0 px-0 py-2", style: "background: none;" } %>
+        </div>
+
+        <div class="mb-3">
+          <%= f.input :password, required: true, label: false, placeholder: "Password",
+            input_html: { class: "form-control border-0 border-bottom rounded-0 px-0 py-2", style: "background: none;" } %>
+        </div>
+
+        <div class="mb-4">
+          <%= f.input :password_confirmation, required: true, label: false, placeholder: "Confirm Password",
+            input_html: { class: "form-control border-0 border-bottom rounded-0 px-0 py-2", style: "background: none;" } %>
+        </div>
+
+        <div class="d-grid">
+          <%= f.button :submit, "Create Account", class: "btn btn-dark fw-bold py-2" %>
+        </div>
+      <% end %>
+    </div>
   </div>
 </div>

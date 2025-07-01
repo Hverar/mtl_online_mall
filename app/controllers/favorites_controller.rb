@@ -11,9 +11,13 @@ class FavoritesController < ApplicationController
 
     respond_to do |format|
       format.turbo_stream do
-        render turbo_stream: turbo_stream.replace("favorite-toggle-#{favoritable.id}", partial: "favorites/favorite_toggle", locals: { favoritable: favoritable, favorite: favorite })
+        render turbo_stream: turbo_stream.replace(
+          "favorite-toggle-#{favoritable.id}",
+          partial: "favorites/favorite_toggle",
+          locals: { favoritable: favoritable, favorite: favorite }
+        )
       end
-      format.html { redirect_back fallback_location: root_path }
+      format.html { head :ok }
     end
   end
 
@@ -24,16 +28,19 @@ class FavoritesController < ApplicationController
 
     respond_to do |format|
       format.turbo_stream do
-        render turbo_stream: turbo_stream.replace("favorite-toggle-#{favoritable.id}", partial: "favorites/favorite_toggle", locals: { favoritable: favoritable, favorite: nil })
+        render turbo_stream: turbo_stream.replace(
+          "favorite-toggle-#{favoritable.id}",
+          partial: "favorites/favorite_toggle",
+          locals: { favoritable: favoritable, favorite: nil }
+        )
       end
-      format.html { redirect_back fallback_location: root_path }
+      format.html { head :ok }
     end
   end
 
   private
 
   def find_favoritable
-    type = params[:type].constantize
-    type.find(params[:id])
+    params[:type].constantize.find(params[:id])
   end
 end

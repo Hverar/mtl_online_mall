@@ -1,25 +1,47 @@
 <div class="container py-5">
-  <h1 class="mb-4 fw-bold">Your Favorites</h1>
+  <h1 class="fw-bold text-center mb-5">Welcome User</h1>
 
-  <% if @favorites.any? %>
-    <div class="row g-4">
-      <% @favorites.each do |favorite| %>
-        <% favoritable = favorite.favoritable %>
-        <div class="col-md-4">
-          <div class="card shadow-sm">
-            <!-- Example rendering an event -->
-            <% if favoritable.is_a?(Event) %>
-              <%= image_tag favoritable.image_url, class: "card-img-top", alt: favoritable.name if favoritable.respond_to?(:image_url) %>
-              <div class="card-body">
-                <h5 class="card-title"><%= favoritable.name %></h5>
-                <%= link_to "Remove", favorite_path(favorite), method: :delete, class: "btn btn-outline-danger btn-sm" %>
+  <div class="row justify-content-center">
+    <!-- Favorites Section -->
+    <div class="col-md-8">
+      <h3 class="fw-semibold border-bottom pb-2 mb-4 text-center">Favorites</h3>
+
+      <% if @favorites.any? %>
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-4">
+          <% @favorites.each do |favorite| %>
+            <% favoritable = favorite.favoritable %>
+
+            <div class="col">
+              <div class="card border-0 shadow-sm h-100">
+                <% if favoritable.respond_to?(:image) && favoritable.image.present? %>
+                  <%= link_to polymorphic_path(favoritable) do %>
+                    <%= image_tag favoritable.image, class: "card-img-top", alt: favoritable.try(:name) || favoritable.try(:title), style: "object-fit: cover; height: 160px;" %>
+                  <% end %>
+                <% end %>
+
+                <div class="card-body p-3">
+                  <h6 class="card-title mb-2 fw-semibold">
+                    <%= link_to (favoritable.try(:name) || favoritable.try(:title)), polymorphic_path(favoritable), class: "text-decoration-none text-dark" %>
+                  </h6>
+                  <p class="card-text text-muted small mb-3"><%= favoritable.class.name %></p>
+
+                  <%= link_to "Remove", favorite_path(favorite), method: :delete, class: "btn btn-outline-danger btn-sm w-100" %>
+                </div>
               </div>
-            <% end %>
-          </div>
+            </div>
+          <% end %>
         </div>
+      <% else %>
+        <p class="text-center text-muted">You haven't favorited anything yet.</p>
       <% end %>
     </div>
-  <% else %>
-    <p>You haven't favorited anything yet.</p>
-  <% end %>
+
+    <!-- Your Products Section -->
+    <div class="col-md-4 mt-5 mt-md-0">
+      <h3 class="fw-semibold border-bottom pb-2 mb-4 text-center">Your Products</h3>
+      <div class="text-center mt-4">
+        <%= link_to "Advertise your own product", nil, class: "text-decoration-underline text-dark fw-semibold" %>
+      </div>
+    </div>
+  </div>
 </div>
