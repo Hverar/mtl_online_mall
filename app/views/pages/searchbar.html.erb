@@ -1,9 +1,7 @@
 <% content_for :no_footer %>
 
-<!-- Fullscreen search page -->
-<div style="min-height: 100vh; background-color: #f7f7f7; position: relative; padding-top: 100px;">
-
-  <!-- Close icon, top-right and far -->
+<div style="min-height: 100vh; background-color: #f7f7f7; padding-top: 100px;">
+  <!-- Close icon -->
   <div style="position: absolute; top: 32px; right: 48px;" class="text-end">
     <%= link_to root_path, class: "text-dark fs-4" do %>
       <i class="bi bi-x"></i>
@@ -11,12 +9,12 @@
   </div>
 
   <div class="container px-5">
-
-    <!-- Search input with line and glass icon inline -->
+    <!-- Search bar -->
     <div class="mb-4" style="max-width: 1000px; margin: 0 auto;">
-      <form action="#" method="get" class="d-flex align-items-center border-bottom border-dark pb-2">
+      <form action="<%= search_path %>" method="get" class="d-flex align-items-center border-bottom border-dark pb-2">
         <input type="text"
                name="query"
+               value="<%= @query %>"
                class="border-0 fw-bold fs-4 text-center flex-grow-1"
                style="outline: none; background: transparent;"
                placeholder="Search" />
@@ -26,10 +24,102 @@
       </form>
     </div>
 
-    <!-- Suggestions, left-aligned -->
-    <div style="max-width: 1000px; margin: 0 auto;">
-      <h5 class="text-muted mb-3">Suggestions</h5>
-    </div>
+    <!-- Results Grid -->
+    <div style="max-width: 1100px; margin: 0 auto;">
+      <% if @query.present? %>
+        <h5 class="text-muted mb-4">Results for "<%= @query %>"</h5>
 
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
+          <% @products.each do |product| %>
+            <div class="col">
+              <div class="card h-100">
+                <%= image_tag product.image, class: "card-img-top", alt: product.name if product.image.present? %>
+                <div class="card-body text-center">
+                  <h5 class="card-title"><%= product.name %></h5>
+                  <p class="card-text text-muted">Product – $<%= product.price %></p>
+                  <%= link_to "View", product_path(product), class: "btn btn-dark btn-sm" %>
+                </div>
+              </div>
+            </div>
+          <% end %>
+
+          <% @brands.each do |brand| %>
+            <div class="col">
+              <div class="card h-100">
+                <%= image_tag brand.image, class: "card-img-top", alt: brand.name if brand.image.present? %>
+                <div class="card-body text-center">
+                  <h5 class="card-title"><%= brand.name %></h5>
+                  <p class="card-text text-muted">Brand</p>
+                  <%= link_to "View", brand_path(brand), class: "btn btn-dark btn-sm" %>
+                </div>
+              </div>
+            </div>
+          <% end %>
+
+          <% @events.each do |event| %>
+            <div class="col">
+              <div class="card h-100">
+                <%= image_tag event.image, class: "card-img-top", alt: event.name if event.image.present? %>
+                <div class="card-body text-center">
+                  <h5 class="card-title"><%= event.name %></h5>
+                  <p class="card-text text-muted">Event</p>
+                  <%= link_to "View", mtl_event_path(event), class: "btn btn-dark btn-sm" %>
+                </div>
+              </div>
+            </div>
+          <% end %>
+
+          <% @songs.each do |song| %>
+            <div class="col">
+              <div class="card h-100">
+                <%= image_tag song.image, class: "card-img-top", alt: song.title if song.image.present? %>
+                <div class="card-body text-center">
+                  <h5 class="card-title"><%= song.title %></h5>
+                  <p class="card-text text-muted">Song</p>
+                  <%= link_to "View", song_path(song), class: "btn btn-dark btn-sm" %>
+                </div>
+              </div>
+            </div>
+          <% end %>
+
+          <% @artists.each do |artist| %>
+            <div class="col">
+              <div class="card h-100">
+                <%= image_tag artist.image, class: "card-img-top", alt: artist.name if artist.image.present? %>
+                <div class="card-body text-center">
+                  <h5 class="card-title"><%= artist.name %></h5>
+                  <p class="card-text text-muted">Artist</p>
+                  <%= link_to "View", artist_path(artist), class: "btn btn-dark btn-sm" %>
+                </div>
+              </div>
+            </div>
+          <% end %>
+
+          <% @albums.each do |album| %>
+            <div class="col">
+              <div class="card h-100">
+                <%= image_tag album.cover_image, class: "card-img-top", alt: album.title if album.cover_image.present? %>
+                <div class="card-body text-center">
+                  <h5 class="card-title"><%= album.title %></h5>
+                  <p class="card-text text-muted">Album</p>
+                  <%= link_to "View", music_path(album), class: "btn btn-dark btn-sm" %>
+                </div>
+              </div>
+            </div>
+          <% end %>
+        </div>
+
+        <% if [@products, @brands, @events, @songs, @artists, @albums].all?(&:empty?) %>
+          <p class="text-muted mt-5 text-center">Not created yet.</p>
+        <% end %>
+      <% else %>
+        <h5 class="text-muted mb-3">Suggestions</h5>
+        <ul>
+          <li>Try typing a product name</li>
+          <li>Search for a band or artist</li>
+          <li>Look up an upcoming event</li>
+        </ul>
+      <% end %>
+    </div>
   </div>
 </div>
