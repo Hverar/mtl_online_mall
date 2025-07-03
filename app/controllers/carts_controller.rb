@@ -1,4 +1,4 @@
-class CartController < ApplicationController
+class CartsController < ApplicationController
   def show
     cart_ids = session[:cart] || []
     @products = Product.where(id: cart_ids)

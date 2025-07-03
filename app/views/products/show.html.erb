@@ -1,32 +1,41 @@
-<div class="w-100 py-5" style="min-height: 100vh;">
-  <div class="row align-items-center g-4 px-5">
-    <!-- Left: Product Image -->
-    <div class="col-md-6 text-center mb-4 mb-md-0">
-      <%= image_tag @product.image.presence || "default_brand_product.jpg", class: "img-fluid rounded shadow" %>
+<div class="container-fluid py-5" style="min-height: 100vh;">
+  <div class="row justify-content-center align-items-start g-5 px-5">
+
+    <!-- LEFT SIDE: Product Image (bigger, no border) -->
+    <div class="col-lg-6 text-center">
+      <%= image_tag @product.image.presence || "default_brand_product.jpg",
+          class: "img-fluid",
+          style: "max-height: 600px; width: 100%; object-fit: contain; border: none; box-shadow: none;" %>
     </div>
 
-    <!-- Right: Product Details -->
-    <div class="col-md-6">
-      <div class="d-flex align-items-center gap-2 mb-3">
-        <h2 class="fw-bold mb-0">
-          <%= link_to @product.name, product_path(@product), class: "text-decoration-none text-dark border-bottom border-3 border-primary" %>
-        </h2>
 
-        <div id="favorite-toggle-<%= @product.id %>">
-          <%= render partial: "favorites/favorite_toggle",
-                     locals: { favoritable: @product, favorite: current_user.favorites.find_by(favoritable: @product) } %>
-        </div>
+    <!-- RIGHT SIDE: Product Details (wider) -->
+    <div class="col-lg-5">
+      <h2 class="fw-bold border-bottom pb-2 mb-3">
+        <%= @product.name.upcase %>
+      </h2>
+
+      <p class="fs-4 mb-3"><strong><%= number_to_currency(@product.price, unit: "$") %></strong></p>
+
+      <%# These are commented until size/color are added to Product model %>
+      <%# <p class="mb-2"><strong>Size:</strong> <%= @product.size || "N/A" %></p>
+      <%# <p class="mb-4"><strong>Color:</strong> <%= @product.color || "N/A" %></p>
+
+      <!-- Action Buttons -->
+      <div class="d-flex gap-3 mb-4">
+        <%= button_to "BUY", "#", class: "btn btn-dark fw-bold px-5 py-2", disabled: true %>
+        <%= button_to "Cart", add_to_cart_path(@product), method: :post, class: "btn btn-outline-dark fw-semibold px-5 py-2" %>
       </div>
 
-      <p><strong>Price:</strong> <%= number_to_currency(@product.price, unit: "$") %></p>
-
-      <div class="mb-3">
-        <%= button_to "BUY", "#", class: "btn btn-outline-primary me-2", disabled: true %>
-        <%= button_to "Add to Cart", add_to_cart_path(@product), method: :post, class: "btn btn-outline-secondary" %>
+      <!-- Optional Favorite Toggle -->
+      <div class="mb-4" id="favorite-toggle-<%= @product.id %>">
+        <%= render partial: "favorites/favorite_toggle",
+                   locals: { favoritable: @product, favorite: current_user.favorites.find_by(favoritable: @product) } %>
       </div>
 
-      <div class="p-3 bg-light rounded border">
-        RANDOM INFO LIKE WTV
+      <!-- RANDOM INFO SECTION -->
+      <div class="bg-secondary bg-opacity-10 p-4 rounded">
+        <strong>RANDOM INFO LIKE WTV</strong>
       </div>
     </div>
   </div>

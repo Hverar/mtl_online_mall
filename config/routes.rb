@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get 'carts/show'
   # Devise authentication
   devise_for :users
 
