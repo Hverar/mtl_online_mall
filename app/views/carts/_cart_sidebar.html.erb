@@ -1,34 +1,30 @@
-<div data-controller="cart">
-  <!-- ✅ Cart Button (trigger) -->
-  <button class="text-dark fs-5 btn p-0" data-action="click->cart#toggle">
-    <i class="bi bi-cart"></i>
-  </button>
+<!-- _cart_sidebar.html.erb -->
 
-  <!-- ✅ Cart Sidebar -->
-  <div data-cart-target="sidebar"
-       class="cart-sidebar d-none"
-       style="position: fixed; top: 0; right: 0; width: 320px; height: 100vh; background: white; box-shadow: -2px 0 5px rgba(0, 0, 0, 0.2); z-index: 1050; overflow-y: auto; transition: transform 0.3s ease-in-out; transform: translateX(100%);">
+<% @products ||= local_assigns[:products] %>
 
-    <div class="d-flex justify-content-between align-items-center p-3 border-bottom">
-      <h5 class="mb-0">Shopping Cart</h5>
-      <button class="btn btn-sm" data-action="click->cart#close">✕</button>
-    </div>
+<div data-cart-target="sidebar"
+     class="cart-sidebar d-none"
+     style="position: fixed; top: 0; right: 0; width: 320px; height: 100vh; background: white; box-shadow: -2px 0 5px rgba(0, 0, 0, 0.2); z-index: 1050; overflow-y: auto; transition: transform 0.3s ease-in-out; transform: translateX(100%);">
 
-    <div class="p-3">
-      <% if @products.present? %>
-        <% @products.each do |product| %>
-          <div class="d-flex justify-content-between mb-2">
-            <span><%= product.name %></span>
-            <span><%= number_to_currency(product.price) %></span>
-          </div>
-        <% end %>
-        <div class="mt-4">
-          <strong>Product x <%= @products.count %></strong>
-          <%= link_to "Checkout", "#", class: "btn btn-dark w-100 mt-2" %>
+  <div class="d-flex justify-content-between align-items-center p-3 border-bottom">
+    <h5 class="mb-0">Shopping Cart</h5>
+    <button class="btn btn-sm" data-action="click->cart#close">✕</button>
+  </div>
+
+  <div class="p-3">
+    <% if @products.present? %>
+      <% @products.each do |product| %>
+        <div class="d-flex justify-content-between mb-2">
+          <span><%= product.name %></span>
+          <span><%= number_to_currency(product.price) %></span>
         </div>
-      <% else %>
-        <p>Your cart is empty.</p>
       <% end %>
-    </div>
+      <div class="mt-4">
+        <strong>Product x <%= @products.count %></strong>
+        <%= link_to "Checkout", "#", class: "btn btn-dark w-100 mt-2" %>
+      </div>
+    <% else %>
+      <p>Your cart is empty.</p>
+    <% end %>
   </div>
 </div>

@@ -16,11 +16,10 @@
         <i class="bi bi-star"></i>
       <% end %>
 
-      <!-- ✅ Stimulus action on this button -->
+      <!-- ✅ Cart Button with Stimulus action -->
       <button class="text-dark fs-5 btn p-0" data-action="click->cart#toggle">
         <i class="bi bi-cart"></i>
       </button>
-
 
       <% if defined?(user_signed_in?) && respond_to?(:user_signed_in?) && user_signed_in? %>
         <%= link_to "#", class: "text-dark fs-5" do %>

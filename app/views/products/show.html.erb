@@ -5,9 +5,8 @@
     <div class="col-lg-6 text-center">
       <%= image_tag @product.image.presence || "default_brand_product.jpg",
           class: "img-fluid",
-          style: "max-height: 600px; width: 100%; object-fit: contain; border: none; box-shadow: none;" %>
+          style: "max-height: 600px; width: 100%; object-fit: contain;" %>
     </div>
-
 
     <!-- RIGHT SIDE: Product Details (wider) -->
     <div class="col-lg-5">
@@ -17,20 +16,29 @@
 
       <p class="fs-4 mb-3"><strong><%= number_to_currency(@product.price, unit: "$") %></strong></p>
 
-      <%# These are commented until size/color are added to Product model %>
-      <%# <p class="mb-2"><strong>Size:</strong> <%= @product.size || "N/A" %></p>
-      <%# <p class="mb-4"><strong>Color:</strong> <%= @product.color || "N/A" %></p>
+      <!-- Uncomment when size/color attributes exist -->
+      <%# <p class="mb-2"><strong>Size:</strong> <%= @product.size || "N/A" %></p> %>
+      <%# <p class="mb-4"><strong>Color:</strong> <%= @product.color || "N/A" %></p> %>
 
       <!-- Action Buttons -->
       <div class="d-flex gap-3 mb-4">
         <%= button_to "BUY", "#", class: "btn btn-dark fw-bold px-5 py-2", disabled: true %>
-        <%= button_to "Cart", add_to_cart_path(@product), method: :post, class: "btn btn-outline-dark fw-semibold px-5 py-2" %>
+
+        <!-- ✅ Turbo-compatible add to cart button -->
+        <%= button_to "Add to Cart",
+              add_to_cart_path(@product.id),
+              method: :post,
+              data: { turbo_stream: true },
+              class: "btn btn-outline-dark fw-semibold px-5 py-2" %>
       </div>
 
       <!-- Optional Favorite Toggle -->
       <div class="mb-4" id="favorite-toggle-<%= @product.id %>">
         <%= render partial: "favorites/favorite_toggle",
-                   locals: { favoritable: @product, favorite: current_user.favorites.find_by(favoritable: @product) } %>
+                   locals: {
+                     favoritable: @product,
+                     favorite: current_user.favorites.find_by(favoritable: @product)
+                   } %>
       </div>
 
       <!-- RANDOM INFO SECTION -->

@@ -3,27 +3,35 @@
   <head>
     <title>MtlOnlineMall</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+
     <%= turbo_include_tags %>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
+    <!-- Stylesheets -->
     <%= stylesheet_link_tag "https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.css" %>
-    <%= javascript_include_tag "https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.js" %>
-
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
-    <%= javascript_importmap_tags %>
     <%= stylesheet_link_tag "https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" %>
+
+    <!-- JavaScript -->
+    <%= javascript_include_tag "https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.js" %>
+    <%= javascript_importmap_tags %>
   </head>
 
-    <body>
+  <body>
     <% unless devise_controller? && controller_name.in?(["sessions", "registrations", "passwords"]) %>
+      <!-- ✅ Stimulus cart controller wrapper -->
       <div data-controller="cart">
-        <%= render "shared/navbar" unless controller_name == "pages" && action_name == "searchbar" %>
-        <% @products = Product.where(id: session[:cart] || []) %>
-        <%= render "carts/cart_sidebar" %>
+        <%= render "shared/navbar" %>
+
+        <!-- ✅ Cart sidebar with ID for Turbo replacement -->
+        <div id="cart-sidebar">
+          <%= render "carts/cart_sidebar", locals: { products: Product.where(id: session[:cart] || []) } %>
+        </div>
       </div>
     <% end %>
 
+    <!-- ✅ Flash messages -->
     <%= render "shared/flashes" %>
 
     <main>
