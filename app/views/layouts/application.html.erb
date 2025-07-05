@@ -20,24 +20,17 @@
 
   <body>
     <% unless devise_controller? && controller_name.in?(["sessions", "registrations", "passwords"]) %>
-      <!-- ✅ Stimulus cart controller wrapper -->
       <div data-controller="cart">
         <%= render "shared/navbar" %>
-
-        <!-- ✅ Cart sidebar with ID for Turbo replacement -->
-        <div id="cart-sidebar">
-          <%= render "carts/cart_sidebar", locals: { products: Product.where(id: session[:cart] || []) } %>
-        </div>
+        <%= render "carts/cart_sidebar", locals: { products: Product.where(id: session[:cart] || []) } %>
       </div>
     <% end %>
 
-    <!-- ✅ Flash messages -->
     <%= render "shared/flashes" %>
 
     <main>
       <%= yield %>
     </main>
-
     <% unless devise_controller? && controller_name.in?(["sessions", "registrations", "passwords"]) || content_for?(:no_footer) %>
       <footer class="bg-dark text-white py-4">
         <div class="container text-center">

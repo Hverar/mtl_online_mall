@@ -1,30 +1,58 @@
-<!-- _cart_sidebar.html.erb -->
+<% open = local_assigns[:open].nil? ? false : local_assigns[:open] %>
+<% @products ||= Product.where(id: session[:cart] || []) %>
 
-<% @products ||= local_assigns[:products] %>
+<div id="cart-sidebar-wrapper">
+  <div id="cart-sidebar"
+       data-cart-target="sidebar"
+       class="cart-sidebar <%= 'd-none' unless open %>"
+       style="position: fixed; top: 0; right: 0; width: 500px; max-width: 90vw; height: 100vh; background: white; box-shadow: -2px 0 5px rgba(0, 0, 0, 0.2); z-index: 1050; overflow-y: auto; transition: transform 0.3s ease-in-out; transform: <%= open ? 'translateX(0)' : 'translateX(100%)' %>;">
 
-<div data-cart-target="sidebar"
-     class="cart-sidebar d-none"
-     style="position: fixed; top: 0; right: 0; width: 320px; height: 100vh; background: white; box-shadow: -2px 0 5px rgba(0, 0, 0, 0.2); z-index: 1050; overflow-y: auto; transition: transform 0.3s ease-in-out; transform: translateX(100%);">
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center p-3 border-bottom">
+      <h5 class="mb-0">Shopping Cart</h5>
+      <button id="cart-close-button"
+              class="btn btn-sm"
+              data-action="click->cart#close"
+              aria-label="Close sidebar">✕</button>
+    </div>
 
-  <div class="d-flex justify-content-between align-items-center p-3 border-bottom">
-    <h5 class="mb-0">Shopping Cart</h5>
-    <button class="btn btn-sm" data-action="click->cart#close">✕</button>
-  </div>
+    <!-- Cart Body -->
+    <div class="p-3">
+      <% total = 0 %>
 
-  <div class="p-3">
-    <% if @products.present? %>
-      <% @products.each do |product| %>
-        <div class="d-flex justify-content-between mb-2">
-          <span><%= product.name %></span>
-          <span><%= number_to_currency(product.price) %></span>
-        </div>
+      <% if @products.present? %>
+        <% @products.each do |product| %>
+          <% total += product.price %>
+
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <div>
+              <strong><%= product.name %></strong><br>
+              <span class="text-muted small"><%= number_to_currency(product.price) %></span>
+            </div>
+
+            <%= button_to remove_from_cart_path(product), method: :delete,
+                form: { data: { turbo_stream: true } },
+                class: "p-0 border-0 bg-transparent text-dark",
+                title: "Remove from cart" do %>
+              <span style="font-size: 1rem;">×</span>
+            <% end %>
+          </div>
+        <% end %>
+      <% else %>
+        <p>Your cart is empty.</p>
       <% end %>
-      <div class="mt-4">
-        <strong>Product x <%= @products.count %></strong>
-        <%= link_to "Checkout", "#", class: "btn btn-dark w-100 mt-2" %>
+
+      <!-- Always visible total + buttons -->
+      <div class="mt-4 border-top pt-3">
+        <div class="d-flex justify-content-between fw-bold mb-2">
+          <span>Total:</span>
+          <span><%= number_to_currency(total) %></span>
+        </div>
+        <div class="d-grid gap-2">
+          <%= link_to "View Cart", cart_path, class: "btn btn-outline-dark" %>
+          <%= link_to "Checkout", "#", class: "btn btn-dark" %>
+        </div>
       </div>
-    <% else %>
-      <p>Your cart is empty.</p>
-    <% end %>
+    </div>
   </div>
 </div>

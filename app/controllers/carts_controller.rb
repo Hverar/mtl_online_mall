@@ -8,15 +8,14 @@ class CartsController < ApplicationController
     session[:cart] ||= []
     session[:cart] << params[:product_id].to_i
     session[:cart].uniq!
-
     @products = Product.where(id: session[:cart])
 
     respond_to do |format|
       format.turbo_stream do
         render turbo_stream: turbo_stream.replace(
-          "cart-sidebar",
+          "cart-sidebar-wrapper",
           partial: "carts/cart_sidebar",
-          locals: { products: @products }
+          locals: { products: @products } # ❌ Don't force open here
         )
       end
 
@@ -29,15 +28,14 @@ class CartsController < ApplicationController
   def remove
     session[:cart] ||= []
     session[:cart].delete(params[:product_id].to_i)
-
     @products = Product.where(id: session[:cart])
 
     respond_to do |format|
       format.turbo_stream do
         render turbo_stream: turbo_stream.replace(
-          "cart-sidebar",
+          "cart-sidebar-wrapper",
           partial: "carts/cart_sidebar",
-          locals: { products: @products }
+          locals: { products: @products, open: true } # ✅ Keep it open
         )
       end
 
