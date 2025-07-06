@@ -23,18 +23,14 @@ class FavoritesController < ApplicationController
 
   def destroy
     favorite = current_user.favorites.find(params[:id])
-    favoritable = favorite.favoritable
+    favorite_id = favorite.id
     favorite.destroy
 
     respond_to do |format|
       format.turbo_stream do
-        render turbo_stream: turbo_stream.replace(
-          "favorite-toggle-#{favoritable.id}",
-          partial: "favorites/favorite_toggle",
-          locals: { favoritable: favoritable, favorite: nil }
-        )
+        render turbo_stream: turbo_stream.remove("favorite-card-#{favorite_id}")
       end
-      format.html { head :ok }
+      format.html { redirect_to user_favorites_path, notice: "Removed from favorites." }
     end
   end
 

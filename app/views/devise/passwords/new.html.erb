@@ -1,18 +1,32 @@
-<h2>Forgot your password?</h2>
+<div class="min-vh-100 bg-white d-flex flex-column justify-content-center align-items-center">
 
-<%= simple_form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| %>
-  <%= f.error_notification %>
+  <!-- Title -->
+  <h1 class="fw-bold mb-4" style="font-size: 3rem;">MTL Online Mall</h1>
 
-  <div class="form-inputs">
-    <%= f.input :email,
-                required: true,
-                autofocus: true,
-                input_html: { autocomplete: "email" } %>
+  <!-- Forgot Password Heading -->
+  <p class="text-center fw-semibold mb-2">Forgot your password?</p>
+  <p class="text-center text-muted mb-4" style="font-size: 0.9rem;">
+    Enter your email and we'll send you reset instructions.
+  </p>
+
+  <div class="position-relative" style="width: 100%; max-width: 400px;">
+    <%= simple_form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| %>
+      <div class="mb-4">
+        <%= f.input :email, required: true, autofocus: true, label: false, placeholder: "Email",
+          input_html: {
+            autocomplete: "email",
+            class: "form-control border-0 border-bottom rounded-0 px-0 py-2",
+            style: "background: none;"
+          } %>
+      </div>
+
+      <div class="d-grid">
+        <%= f.button :submit, "Send Reset Instructions", class: "btn btn-dark fw-bold py-2" %>
+      </div>
+    <% end %>
   </div>
 
-  <div class="form-actions">
-    <%= f.button :submit, "Send me reset password instructions" %>
+  <div class="mt-4 text-center">
+    <%= link_to "Back to Sign In", new_session_path(resource_name), class: "text-muted small text-decoration-none" %>
   </div>
-<% end %>
-
-<%= render "devise/shared/links" %>
+</div>

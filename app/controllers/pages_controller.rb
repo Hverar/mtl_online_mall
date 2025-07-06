@@ -1,7 +1,8 @@
 class PagesController < ApplicationController
   skip_before_action :authenticate_user!, only: [:home, :brands, :music, :events, :advertise, :searchbar, :discover]
 
-  def home; end
+  def home
+  end
 
   def events
     @events = MtlEvent.all

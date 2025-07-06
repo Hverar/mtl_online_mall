@@ -1,9 +1,10 @@
 <% if favorite %>
-  <%= link_to favorite_path(favorite),
-              method: :delete,
-              data: { turbo_stream: true },
-              class: "text-warning fs-5",
-              rel: "nofollow" do %>
+  <%= button_to favorite_path(favorite),
+                method: :delete,
+                form: { data: { turbo_stream: true } },
+                class: "btn p-0 border-0 bg-transparent text-warning fs-5",
+                rel: "nofollow",
+                id: "favorite-toggle-#{favoritable.id}" do %>
     <i class="bi bi-star-fill"></i>
   <% end %>
 <% else %>
@@ -12,7 +13,8 @@
                 params: { type: favoritable.class.name, id: favoritable.id },
                 form: { data: { turbo_stream: true } },
                 class: "btn p-0 border-0 bg-transparent text-dark fs-5",
-                rel: "nofollow" do %>
+                rel: "nofollow",
+                id: "favorite-toggle-#{favoritable.id}" do %>
     <i class="bi bi-star"></i>
   <% end %>
 <% end %>
